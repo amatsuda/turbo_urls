@@ -7,16 +7,16 @@ class TurboUrlsTest < ActionDispatch::IntegrationTest
 
   test 'when calling one url_for' do
     visit '/one'
-    assert_equal({[:conferences_path, []] => '/conferences'}, TurboUrls.cache)
+    assert_equal('/conferences', TurboUrls.cache[:conferences_path, []])
   end
 
   test 'calling url_for taking an integer parameter' do
     visit '/integer_show'
-    assert_equal({[:conference_path, [1]] => '/conferences/1'}, TurboUrls.cache)
+    assert_equal('/conferences/1', TurboUrls.cache[:conference_path, [1]])
   end
 
   test 'calling url_for taking a string parameter' do
     visit '/string_show'
-    assert_equal({[:conference_path, ['2']] => '/conferences/2'}, TurboUrls.cache)
+    assert_equal('/conferences/2', TurboUrls.cache[:conference_path, ['2']])
   end
 end

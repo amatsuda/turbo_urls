@@ -1,9 +1,10 @@
 require "turbo_urls/version"
+require 'turbo_urls/cache'
 require 'turbo_urls/railtie'
 
 module TurboUrls
   module Interceptor; end
-  @cache = {}
+  @cache = Cache.new
   def self.cache() @cache end
 
   def self.i_m_your_turbo_lover!
@@ -20,11 +21,11 @@ module TurboUrls
   CACHE_IF_NO_ARGUMENT = ->(*args) do
     return super(*args) unless args.empty? || args.all? {|a| a.is_a?(Fixnum) || a.is_a?(String) }
 
-    cached = TurboUrls.cache[[__method__, args]]
+    cached = TurboUrls.cache[__method__, args]
     return cached if cached
 
     url = super(*args)
 
-    TurboUrls.cache[[__method__, args]] = url
+    TurboUrls.cache[__method__, args] = url
   end
 end
