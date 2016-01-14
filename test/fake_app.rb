@@ -13,9 +13,11 @@ Let's think of that and the passing time"
 end
 
 TurboUrlsTestApp::Application.routes.draw do
-  resources :conferences, only: :index
+  resources :conferences, only: %i(index show)
   get 'null' => 'conferences#null'
   get 'one' => 'conferences#one'
+  get 'integer_show' => 'conferences#integer_show'
+  get 'string_show' => 'conferences#string_show'
 end
 
 # controllers
@@ -29,5 +31,13 @@ class ConferencesController < ApplicationController
 
   def one
     render text: conferences_path
+  end
+
+  def integer_show
+    render text: conference_path(1)
+  end
+
+  def string_show
+    render text: conference_path('2')
   end
 end

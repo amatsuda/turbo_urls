@@ -18,13 +18,13 @@ module TurboUrls
   end
 
   CACHE_IF_NO_ARGUMENT = ->(*args) do
-    return super(*args) if args.any?
+    return super(*args) unless args.empty? || args.all? {|a| a.is_a?(Fixnum) || a.is_a?(String) }
 
-    cached = TurboUrls.cache[__method__]
+    cached = TurboUrls.cache[[__method__, args]]
     return cached if cached
 
     url = super(*args)
 
-    TurboUrls.cache[__method__] = url
+    TurboUrls.cache[[__method__, args]] = url
   end
 end
