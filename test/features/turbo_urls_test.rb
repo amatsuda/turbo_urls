@@ -19,4 +19,22 @@ class TurboUrlsTest < ActionDispatch::IntegrationTest
     visit '/string_show'
     assert_equal('/conferences/2', TurboUrls.cache[:conference_path, ['2']])
   end
+
+  test 'calling model_path taking an AR model instance' do
+    kaigi = Conference.create! name: 'RubyKaigi'
+
+    visit "/model_path/#{kaigi.id}"
+    assert_equal("/conferences/#{kaigi.id}", TurboUrls.cache[:conference_path, [kaigi.id.to_s]])
+
+    Conference.delete_all
+  end
+
+  test 'calling url_for taking an AR model instance' do
+    kaigi = Conference.create! name: 'RubyKaigi'
+
+    visit "/url_for_model/#{kaigi.id}"
+    assert_equal("/conferences/#{kaigi.id}", TurboUrls.cache[:conference_path, [kaigi.id.to_s]])
+
+    Conference.delete_all
+  end
 end

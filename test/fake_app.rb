@@ -18,7 +18,12 @@ TurboUrlsTestApp::Application.routes.draw do
   get 'one' => 'conferences#one'
   get 'integer_show' => 'conferences#integer_show'
   get 'string_show' => 'conferences#string_show'
+  get 'model_path/:id' => 'conferences#model_path'
+  get 'url_for_model/:id' => 'conferences#url_for_model'
 end
+
+# models
+class Conference < ActiveRecord::Base; end
 
 # controllers
 class ApplicationController < ActionController::Base
@@ -39,5 +44,21 @@ class ConferencesController < ApplicationController
 
   def string_show
     render text: conference_path('2')
+  end
+
+  def model_path
+    render text: conference_path(Conference.find(params[:id]))
+  end
+
+  def url_for_model
+    render inline: "<%= link_to('Kaigi', Conference.find(params[:id])) %>"
+  end
+end
+
+
+# migrations
+class CreateAllTables < ActiveRecord::Migration
+  def self.up
+    create_table(:conferences) {|t| t.string :name}
   end
 end

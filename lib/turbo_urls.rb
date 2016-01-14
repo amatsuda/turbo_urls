@@ -19,7 +19,13 @@ module TurboUrls
   end
 
   CACHE_METHOD_BODY = ->(*args) do
-    return super(*args) unless args.empty? || args.all? {|a| a.is_a?(Fixnum) || a.is_a?(String) }
+    if args.empty? || args.all? {|a| a.is_a?(Fixnum) || a.is_a?(String) }
+      # do nothing
+    elsif defined?(ActiveRecord::Base) && args.any? {|a| a.is_a? ActiveRecord::Base }
+      args = args.map {|a| a.is_a?(ActiveRecord::Base) ? a.to_param : a }
+    else
+      return super(*args)
+    end
 
     cached = TurboUrls.cache[__method__, args]
     return cached if cached

@@ -14,3 +14,5 @@ require 'test/unit/rails/test_help'
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
 end
+
+CreateAllTables.up unless ActiveRecord::Base.connection.table_exists? 'conferences'
