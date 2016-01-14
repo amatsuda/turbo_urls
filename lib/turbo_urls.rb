@@ -1,4 +1,5 @@
 require "turbo_urls/version"
+require 'turbo_urls/railtie'
 
 module TurboUrls
   module Interceptor; end
