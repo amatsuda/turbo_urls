@@ -12,13 +12,13 @@ module TurboUrls
       mod.prepend TurboUrls::Interceptor
       def mod.method_added(meth)
         TurboUrls::Interceptor.module_eval do
-          define_method meth, TurboUrls::CACHE_IF_NO_ARGUMENT
+          define_method meth, TurboUrls::CACHE_METHOD_BODY
         end
       end
     end
   end
 
-  CACHE_IF_NO_ARGUMENT = ->(*args) do
+  CACHE_METHOD_BODY = ->(*args) do
     return super(*args) unless args.empty? || args.all? {|a| a.is_a?(Fixnum) || a.is_a?(String) }
 
     cached = TurboUrls.cache[__method__, args]
