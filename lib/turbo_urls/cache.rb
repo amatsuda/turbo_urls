@@ -15,5 +15,9 @@ module TurboUrls
     def clear
       @cache.clear
     end
+
+    def inspect
+      p @cache.keys
+    end
   end
 end
