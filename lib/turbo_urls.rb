@@ -26,12 +26,11 @@ module TurboUrls
   def self.cache() @cache end
 
   def self.i_m_your_turbo_lover!
-    [Rails.application.routes.named_routes.path_helpers_module, Rails.application.routes.named_routes.url_helpers_module].each do |mod|
-      mod.prepend TurboUrls::Interceptor
-      def mod.method_added(meth)
-        TurboUrls::Interceptor.module_eval do
-          define_method meth, TurboUrls::Interceptor::CACHE_LOOKUP
-        end
+    mod = Rails.application.routes.named_routes.path_helpers_module
+    mod.prepend TurboUrls::Interceptor
+    def mod.method_added(meth)
+      TurboUrls::Interceptor.module_eval do
+        define_method meth, TurboUrls::Interceptor::CACHE_LOOKUP
       end
     end
   end
