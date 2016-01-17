@@ -30,9 +30,7 @@ module TurboUrls
     end
 
     def mod.method_added(meth)
-      TurboUrls::Interceptor.module_eval do
-        define_method meth, TurboUrls::Interceptor::CACHE_LOOKUP
-      end
+      TurboUrls::Interceptor.send :define_method, meth, TurboUrls::Interceptor::CACHE_LOOKUP
     end
   end
 end
