@@ -3,7 +3,8 @@ require 'test_helper'
 class CacheTest < ActiveSupport::TestCase
   test 'Cache' do
     begin
-      threashold_was, TurboUrls::Cache::SIMPLE_CACHE_THREASHOLD = TurboUrls::Cache::SIMPLE_CACHE_THREASHOLD, 3
+      threashold_was = TurboUrls::Cache::SIMPLE_CACHE_THREASHOLD
+      suppress_warnings { TurboUrls::Cache::SIMPLE_CACHE_THREASHOLD = 3 }
 
       obj = ActionDispatch::Integration::Session.new(Rails.application)
       obj.extend(Rails.application.routes.url_helpers)
@@ -19,7 +20,7 @@ class CacheTest < ActiveSupport::TestCase
       assert_equal '/conferences/5', TurboUrls.cache[:conference_path, ['5']]
 
     ensure
-      TurboUrls::Cache::SIMPLE_CACHE_THREASHOLD = threashold_was
+      suppress_warnings { TurboUrls::Cache::SIMPLE_CACHE_THREASHOLD = threashold_was }
     end
   end
 end
