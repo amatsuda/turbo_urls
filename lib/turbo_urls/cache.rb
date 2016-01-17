@@ -50,7 +50,7 @@ module TurboUrls
       values.first.length.times do |i|
         if (elements = values.map {|v| v[i] }.uniq).length == 1
           pattern << elements.first
-        else elements.each {|e| Array e} == hash.keys
+        elsif elements.map {|e| Array e} == hash.keys
           pattern << PARAMS_PLACEHOLDER
         end
       end
