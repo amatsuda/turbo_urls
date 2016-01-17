@@ -22,6 +22,13 @@ module TurboUrls
   def self.i_m_your_turbo_lover!
     mod = Rails.application.routes.named_routes.path_helpers_module
     mod.prepend TurboUrls::Interceptor
+
+    (mod.public_instance_methods - Module.instance_methods).each do |meth|
+      TurboUrls::Interceptor.module_eval do
+        define_method meth, TurboUrls::Interceptor::CACHE_LOOKUP
+      end
+    end
+
     def mod.method_added(meth)
       TurboUrls::Interceptor.module_eval do
         define_method meth, TurboUrls::Interceptor::CACHE_LOOKUP
