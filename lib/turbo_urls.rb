@@ -5,20 +5,14 @@ require 'turbo_urls/railtie'
 module TurboUrls
   module Interceptor
     CACHE_LOOKUP = ->(*args) do
-      if args.empty? || args.all? {|a| a.is_a?(Fixnum) || a.is_a?(String) }
-        # do nothing
-      elsif defined?(ActiveRecord::Base) && args.any? {|a| a.is_a? ActiveRecord::Base }
-        args = args.map {|a| a.is_a?(ActiveRecord::Base) ? a.to_param : a }
-      else
-        return super(*args)
-      end
+      params = args.map(&:to_param)
 
-      cached = TurboUrls.cache[__method__, args]
+      cached = TurboUrls.cache[__method__, params]
       return cached if cached
 
       url = super(*args)
 
-      TurboUrls.cache[__method__, args] = url
+      TurboUrls.cache[__method__, params] = url
     end
   end
 

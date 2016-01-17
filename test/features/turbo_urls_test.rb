@@ -12,7 +12,7 @@ class TurboUrlsTest < ActionDispatch::IntegrationTest
 
   test 'calling url_for taking an integer parameter' do
     visit '/integer_show'
-    assert_equal('/conferences/1', TurboUrls.cache[:conference_path, [1]])
+    assert_equal('/conferences/1', TurboUrls.cache[:conference_path, ['1']])
   end
 
   test 'calling url_for taking a string parameter' do
