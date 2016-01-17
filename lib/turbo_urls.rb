@@ -32,5 +32,9 @@ module TurboUrls
     def mod.method_added(meth)
       TurboUrls::Interceptor.send :define_method, meth, TurboUrls::Interceptor::CACHE_LOOKUP
     end
+
+    def mod.method_removed(meth)
+      TurboUrls::Interceptor.send :undef_method, meth
+    end
   end
 end
