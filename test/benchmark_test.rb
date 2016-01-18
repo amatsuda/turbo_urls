@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'benchmark/ips'
+require 'allocation_tracer'
 
 class BenchmarkTest < ActiveSupport::TestCase
   test 'speed is improved' do
@@ -40,5 +41,22 @@ class BenchmarkTest < ActiveSupport::TestCase
 
     original_called_methods = called_methods
     assert_true turbo_called_methods.length < original_called_methods.length
+  end
+
+  test 'object allocations are reduced' do
+    app = ActionDispatch::Integration::Session.new(Rails.application)
+    app.conferences_path  # warm up
+
+    turbo_allocations = ObjectSpace::AllocationTracer.trace do
+      app.conferences_path
+    end
+
+    TurboUrls::Interceptor.module_eval { def conferences_path() super; end }
+
+    original_allocations = ObjectSpace::AllocationTracer.trace do
+      app.conferences_path
+    end
+
+    assert_true turbo_allocations.length < original_allocations.length
   end
 end

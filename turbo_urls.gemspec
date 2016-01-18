@@ -32,5 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'test-unit-rails'
   spec.add_development_dependency 'sqlite3'
   spec.add_development_dependency 'benchmark-ips'
+  spec.add_development_dependency 'allocation_tracer'
   spec.add_development_dependency 'byebug'
 end
