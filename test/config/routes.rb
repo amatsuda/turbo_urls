@@ -1,4 +1,3 @@
-p :loading_routes
 TurboUrlsTestApp::Application.routes.draw do
   resources :conferences, only: %i(index show)
   get 'null' => 'conferences#null'
