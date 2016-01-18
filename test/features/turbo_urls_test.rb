@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class TurboUrlsTest < ActionDispatch::IntegrationTest
-  teardown do
-    TurboUrls.cache.clear
-  end
-
   test 'when calling one url_for' do
     visit '/one'
     assert_equal('/conferences', TurboUrls.cache[:conferences_path, []])

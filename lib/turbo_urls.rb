@@ -37,4 +37,11 @@ module TurboUrls
       TurboUrls::Interceptor.send :undef_method, meth
     end
   end
+
+  def self.unturbo!
+    TurboUrls.cache.clear
+    TurboUrls::Interceptor.module_eval do
+      public_instance_methods.grep(/_path$/).each {|meth| undef_method meth }
+    end
+  end
 end

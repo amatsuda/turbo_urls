@@ -15,4 +15,16 @@ class ActionDispatch::IntegrationTest
   include Capybara::DSL
 end
 
+module TurboCooler
+  def setup
+    Rails.application.routes.clear!
+    TurboUrls.unturbo!
+    TurboUrls.i_m_your_turbo_lover!
+    Rails.application.routes_reloader.reload!
+    super
+  end
+end
+
+Test::Unit::TestCase.send :prepend, TurboCooler
+
 CreateAllTables.up unless ActiveRecord::Base.connection.table_exists? 'conferences'
