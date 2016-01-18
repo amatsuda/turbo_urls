@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module TurboUrls
   class Cache
     PARAMS_PLACEHOLDER = '<<TO_PARAM>>'.freeze

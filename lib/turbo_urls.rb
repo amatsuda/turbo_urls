@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require "turbo_urls/version"
 require 'turbo_urls/cache'
 require 'turbo_urls/railtie'

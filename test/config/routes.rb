@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 TurboUrlsTestApp::Application.routes.draw do
   resources :conferences, only: %i(index show)
   get 'null' => 'conferences#null'
