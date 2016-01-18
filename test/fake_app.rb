@@ -3,6 +3,7 @@ ENV['DATABASE_URL'] = 'sqlite3::memory:'
 
 module TurboUrlsTestApp
   class Application < Rails::Application
+    config.root = __dir__
     config.secret_token = "My death waits there between your thighs
 Your cool fingers will close my eyes
 Let's think of that and the passing time"
@@ -10,16 +11,6 @@ Let's think of that and the passing time"
     config.active_support.deprecation = :log
   end
   Application.initialize!
-end
-
-TurboUrlsTestApp::Application.routes.draw do
-  resources :conferences, only: %i(index show)
-  get 'null' => 'conferences#null'
-  get 'one' => 'conferences#one'
-  get 'integer_show' => 'conferences#integer_show'
-  get 'string_show' => 'conferences#string_show'
-  get 'model_path/:id' => 'conferences#model_path'
-  get 'url_for_model/:id' => 'conferences#url_for_model'
 end
 
 # models
