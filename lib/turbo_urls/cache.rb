@@ -39,7 +39,7 @@ module TurboUrls
     end
 
     def inspect
-      p(simple: @simple_cache.keys, pattern: @pattern_cache, excluded: @excluded_keys)
+      {simple: @simple_cache.keys, pattern: @pattern_cache, excluded: @excluded_keys}
     end
 
     private def patternize(hash)
