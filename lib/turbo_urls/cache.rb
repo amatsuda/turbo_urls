@@ -11,7 +11,7 @@ module TurboUrls
     def [](key, args)
       return if @excluded_keys.include? key
 
-      if (pattern = @pattern_cache[key])
+      if (pattern = @pattern_cache[key]) && (pattern.count(PARAMS_PLACEHOLDER) == args.length)
         args.inject(pattern) {|result, a| result.sub PARAMS_PLACEHOLDER, a }
       else
         @simple_cache[key] && @simple_cache[key][args]

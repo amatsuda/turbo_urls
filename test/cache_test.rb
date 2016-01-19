@@ -14,6 +14,7 @@ class CacheTest < ActiveSupport::TestCase
       assert_nil TurboUrls.cache[:conferences_path, []]
       app.conferences_path
       assert_equal '/conferences', TurboUrls.cache[:conferences_path, []]
+      assert_equal '/conferences?q=Kaigi', app.conferences_path(q: 'Kaigi')
 
       app.conference_path(1)
       app.conference_path(2)
